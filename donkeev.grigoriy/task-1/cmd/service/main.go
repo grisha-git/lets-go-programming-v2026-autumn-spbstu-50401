@@ -6,14 +6,14 @@ func main() {
 	var firstOp int
 	_, err := fmt.Scanln(&firstOp)
 	if err != nil {
-		fmt.Println("Invalid operand")
+		fmt.Println("Invalid first operand")
 		return
 	}
 
 	var secondOp int
 	_, err = fmt.Scanln(&secondOp)
 	if err != nil {
-		fmt.Println("Invalid operand")
+		fmt.Println("Invalid second operand")
 		return
 	}
 
