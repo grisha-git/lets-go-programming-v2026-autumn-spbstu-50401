@@ -1,3 +1,3 @@
 module github.com/grisha-git/task-1
 
-go 1.26.8
+go 1.22.7
