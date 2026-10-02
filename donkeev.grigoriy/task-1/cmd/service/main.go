@@ -14,4 +14,10 @@ func main() {
 	if err2 != nil {
 		fmt.Println("Invalid operand")
 	}
+
+	var operator string
+	_, err3 := fmt.Scanln(&operator)
+	if err3 != nil {
+		fmt.Println("Invalid operator")
+	}
 }
