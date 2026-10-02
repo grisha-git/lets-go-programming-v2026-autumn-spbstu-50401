@@ -24,4 +24,20 @@ func main() {
 		return
 	}
 
+	switch operator {
+	case "+":
+		fmt.Println(firstOp + secondOp)
+	case "-":
+		fmt.Println(firstOp - secondOp)
+	case "*":
+		fmt.Println(firstOp * secondOp)
+	case "/":
+		if secondOp == 0 {
+			fmt.Println("Division by zero")
+			return
+		}
+		fmt.Println(firstOp / secondOp)
+	default:
+		fmt.Println("Invalid operation")
+	}
 }
