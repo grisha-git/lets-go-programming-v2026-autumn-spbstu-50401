@@ -9,7 +9,7 @@ func main() {
 		return
 	}
 
-	for i := range departmentNumber {
+	for range departmentNumber {
 		var stuffNumber int
 		if _, err := fmt.Scanln(&stuffNumber); err != nil {
 			fmt.Println("Invalid stuff number:", err)
@@ -18,7 +18,8 @@ func main() {
 
 		minimum := 15
 		maximum := 30
-		for j := range stuffNumber {
+		incompatible := false
+		for range stuffNumber {
 			var operator string
 			var val int
 			if _, err := fmt.Scanln(&operator, &val); err != nil {
@@ -30,6 +31,29 @@ func main() {
 				fmt.Println("Invalid operator")
 				return
 			}
+
+			if incompatible {
+				fmt.Println(-1)
+				continue
+			}
+			if operator == ">=" {
+				if val > maximum {
+					fmt.Println(-1)
+					incompatible = true
+					continue
+				}
+				minimum = max(val, minimum)
+			}
+			if operator == "<=" {
+				if val < minimum {
+					fmt.Println(-1)
+					incompatible = true
+					continue
+				}
+				maximum = min(val, maximum)
+			}
+
+			fmt.Println(minimum)
 		}
 
 	}
