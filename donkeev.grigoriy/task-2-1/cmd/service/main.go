@@ -12,4 +12,15 @@ func main() {
 		return
 	}
 
+	for range departmentCount {
+		var employeeCount int
+
+		_, err := fmt.Scan(&employeeCount)
+		if err != nil {
+			fmt.Println("Input reading error:", err)
+
+			return
+		}
+
+	}
 }
