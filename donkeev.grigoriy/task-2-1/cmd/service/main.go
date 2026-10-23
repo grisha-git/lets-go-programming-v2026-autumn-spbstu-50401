@@ -9,4 +9,11 @@ func main() {
 		return
 	}
 
+	for i := range departmentNumber {
+		var stuffNumber int
+		if _, err := fmt.Scanln(&stuffNumber); err != nil {
+			fmt.Println("Invalid stuff number:", err)
+		}
+
+	}
 }
