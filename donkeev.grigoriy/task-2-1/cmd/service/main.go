@@ -22,5 +22,22 @@ func main() {
 			return
 		}
 
+		minTemp := 15
+		maxTemp := 30
+
+		for range employeeCount {
+			var (
+				operation string
+				temp      int
+			)
+
+			_, err := fmt.Scan(&operation, &temp)
+			if err != nil {
+				fmt.Println("Input reading error:", err)
+
+				return
+			}
+
+		}
 	}
 }
