@@ -38,6 +38,26 @@ func main() {
 				return
 			}
 
+			switch operation {
+			case ">=":
+				if temp > minTemp {
+					minTemp = temp
+				}
+			case "<=":
+				if temp < maxTemp {
+					maxTemp = temp
+				}
+			default:
+				fmt.Println("Unknown operation:", operation)
+
+				return
+			}
+
+			if minTemp > maxTemp {
+				fmt.Println(-1)
+			} else {
+				fmt.Println(minTemp)
+			}
 		}
 	}
 }
