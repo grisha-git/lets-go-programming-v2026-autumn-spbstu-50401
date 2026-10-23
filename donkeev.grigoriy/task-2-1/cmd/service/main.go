@@ -3,58 +3,61 @@ package main
 import "fmt"
 
 func main() {
-	var departmentNumber int
-	if _, err := fmt.Scanln(&departmentNumber); err != nil {
-		fmt.Println("Invalid N:", err)
+	var departmentCount int
+
+	_, err := fmt.Scan(&departmentCount)
+	if err != nil {
+		fmt.Println("Input reading error:", err)
+
 		return
 	}
 
-	for range departmentNumber {
-		var stuffNumber int
-		if _, err := fmt.Scanln(&stuffNumber); err != nil {
-			fmt.Println("Invalid stuff number:", err)
+	for range departmentCount {
+		minTemp := 15
+		maxTemp := 30
+
+		var employeeCount int
+
+		_, err := fmt.Scan(&employeeCount)
+		if err != nil {
+			fmt.Println("Input reading error:", err)
+
 			return
 		}
 
-		minimum := 15
-		maximum := 30
-		incompatible := false
-		for range stuffNumber {
-			var operator string
-			var val int
-			if _, err := fmt.Scanln(&operator, &val); err != nil {
-				fmt.Println("Invalid input:", err)
+		for range employeeCount {
+			var (
+				operation string
+				temp      int
+			)
+
+			_, err := fmt.Scan(&operation, &temp)
+			if err != nil {
+				fmt.Println("Input reading error:", err)
+
 				return
 			}
 
-			if operator != "<=" && operator != ">=" {
-				fmt.Println("Invalid operator")
+			switch operation {
+			case ">=":
+				if temp > minTemp {
+					minTemp = temp
+				}
+			case "<=":
+				if temp < maxTemp {
+					maxTemp = temp
+				}
+			default:
+				fmt.Println("Unknown operation:", operation)
+
 				return
 			}
 
-			if incompatible {
+			if minTemp > maxTemp {
 				fmt.Println(-1)
-				continue
+			} else {
+				fmt.Println(minTemp)
 			}
-			if operator == ">=" {
-				if val > maximum {
-					fmt.Println(-1)
-					incompatible = true
-					continue
-				}
-				minimum = max(val, minimum)
-			}
-			if operator == "<=" {
-				if val < minimum {
-					fmt.Println(-1)
-					incompatible = true
-					continue
-				}
-				maximum = min(val, maximum)
-			}
-
-			fmt.Println(minimum)
 		}
-
 	}
 }
