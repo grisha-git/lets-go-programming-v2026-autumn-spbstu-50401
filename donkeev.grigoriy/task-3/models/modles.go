@@ -13,3 +13,9 @@ type Valute struct {
 	Nominal  string `xml:"Nominal"`
 	Value    string `xml:"Value"`
 }
+
+type OutputCurrency struct {
+	NumCode  int     `json:"num_code"`
+	CharCode string  `json:"char_code"`
+	Value    float64 `json:"value"`
+}
