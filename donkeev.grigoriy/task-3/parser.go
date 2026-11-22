@@ -2,6 +2,7 @@ package parser
 
 import (
 	"encoding/xml"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -36,6 +37,10 @@ func XMLFormatParser(data []byte) ([]models.OutputCurrency, error) {
 			Value:    value,
 		})
 	}
+
+	sort.Slice(result, func(i, j int) bool {
+		return result[i].Value > result[j].Value
+	})
 
 	return result, nil
 }
