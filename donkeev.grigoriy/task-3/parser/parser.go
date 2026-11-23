@@ -35,14 +35,14 @@ func XMLFormatParser(data []byte) ([]models.OutputCurrency, error) {
 	for _, value := range valCurs.Valutes {
 		numCode, err := strconv.Atoi(value.NumCode)
 		if err != nil {
-			return nil, fmt.Errorf("types convertion: %w", err)
+			return nil, fmt.Errorf("types conversion: %w", err)
 		}
 
 		valueStr := strings.ReplaceAll(value.Value, ",", ".")
 
 		val, err := strconv.ParseFloat(valueStr, 64)
 		if err != nil {
-			return nil, fmt.Errorf("types convertion: %w", err)
+			return nil, fmt.Errorf("types conversion: %w", err)
 		}
 
 		result = append(result, models.OutputCurrency{

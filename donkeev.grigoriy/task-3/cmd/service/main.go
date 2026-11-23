@@ -34,7 +34,7 @@ func main() {
 	}
 
 	outputDir := filepath.Dir(configVal.OutputFile)
-	if err := os.MkdirAll(outputDir, 0755); err != nil {
+	if err := os.MkdirAll(outputDir, 0o755); err != nil {
 		panic("Creating directory error")
 	}
 
@@ -43,7 +43,7 @@ func main() {
 		panic("Coding to json error")
 	}
 
-	err = os.WriteFile(configVal.OutputFile, jsonData, 0600)
+	err = os.WriteFile(configVal.OutputFile, jsonData, 0o600)
 	if err != nil {
 		panic("Error file writing")
 	}
