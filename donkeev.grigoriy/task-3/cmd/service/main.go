@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"flag"
-	"fmt"
 	"os"
 	"path/filepath"
 
@@ -14,37 +13,38 @@ import (
 func main() {
 	configPath := flag.String("config", "config.yaml", "Path to config file")
 	flag.Parse()
+
 	if flag.NArg() > 0 {
-		panic(fmt.Sprintf("Too many arguments"))
+		panic("Too many arguments")
 	}
 
 	configVal, err := config.Load(*configPath)
 	if err != nil {
-		panic(fmt.Sprintf("Download error"))
+		panic("Download error")
 	}
 
 	xmlData, err := os.ReadFile(configVal.InputFile)
 	if err != nil {
-		panic(fmt.Sprintf("Reading error"))
+		panic("Reading error")
 	}
+
 	currencyData, err := parser.XMLFormatParser(xmlData)
 	if err != nil {
-		panic(fmt.Sprintf("Parsing to XML error: %v", err))
+		panic("Parsing to XML error: %v")
 	}
 
 	outputDir := filepath.Dir(configVal.OutputFile)
-
 	if err := os.MkdirAll(outputDir, 0755); err != nil {
-		panic(fmt.Sprintf("Creating directory error"))
+		panic("Creating directory error")
 	}
 
 	jsonData, err := json.MarshalIndent(currencyData, "", "    ")
 	if err != nil {
-		panic(fmt.Sprintf("Coding to json error %v", err))
+		panic("Coding to json error")
 	}
 
-	err = os.WriteFile(configVal.OutputFile, jsonData, 0644)
+	err = os.WriteFile(configVal.OutputFile, jsonData, 0600)
 	if err != nil {
-		panic(fmt.Sprintf("Error file writing"))
+		panic("Error file writing")
 	}
 }

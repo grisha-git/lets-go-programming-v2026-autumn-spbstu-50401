@@ -3,6 +3,7 @@ package parser
 import (
 	"bytes"
 	"encoding/xml"
+	"fmt"
 	"io"
 	"sort"
 	"strconv"
@@ -21,31 +22,33 @@ func XMLFormatParser(data []byte) ([]models.OutputCurrency, error) {
 		if charset == "windows-1251" {
 			return charmap.Windows1251.NewDecoder().Reader(input), nil
 		}
+
 		return input, nil
 	}
 
 	if err := decoder.Decode(&valCurs); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("xml decode: %w", err)
 	}
 
 	result := make([]models.OutputCurrency, 0, len(valCurs.Valutes))
 
-	for _, v := range valCurs.Valutes {
-		numCode, err := strconv.Atoi(v.NumCode)
+	for _, value := range valCurs.Valutes {
+		numCode, err := strconv.Atoi(value.NumCode)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("types convertion: %w", err)
 		}
 
-		valueStr := strings.Replace(v.Value, ",", ".", -1)
-		value, err := strconv.ParseFloat(valueStr, 64)
+		valueStr := strings.ReplaceAll(value.Value, ",", ".")
+
+		val, err := strconv.ParseFloat(valueStr, 64)
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("types convertion: %w", err)
 		}
 
 		result = append(result, models.OutputCurrency{
 			NumCode:  numCode,
-			CharCode: v.CharCode,
-			Value:    value,
+			CharCode: value.CharCode,
+			Value:    val,
 		})
 	}
 
