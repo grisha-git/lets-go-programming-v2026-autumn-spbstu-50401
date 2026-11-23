@@ -9,13 +9,28 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/donkeev.grigoriy/task-3/models"
-
 	"golang.org/x/text/encoding/charmap"
 )
 
-func XMLFormatParser(data []byte) ([]models.OutputCurrency, error) {
-	var valCurs models.ValCurs
+type ValCurs struct {
+	XMLName xml.Name `xml:"ValCurs"`
+	Valutes []Valute `xml:"Valute"`
+}
+
+type Valute struct {
+	NumCode  string `xml:"NumCode"`
+	CharCode string `xml:"CharCode"`
+	Value    string `xml:"Value"`
+}
+
+type OutputCurrency struct {
+	NumCode  int     `json:"num_code"`
+	CharCode string  `json:"char_code"`
+	Value    float64 `json:"value"`
+}
+
+func XMLFormatParser(data []byte) ([]OutputCurrency, error) {
+	var valCurs ValCurs
 
 	decoder := xml.NewDecoder(bytes.NewReader(data))
 	decoder.CharsetReader = func(charset string, input io.Reader) (io.Reader, error) {
@@ -30,7 +45,7 @@ func XMLFormatParser(data []byte) ([]models.OutputCurrency, error) {
 		return nil, fmt.Errorf("xml decode: %w", err)
 	}
 
-	result := make([]models.OutputCurrency, 0, len(valCurs.Valutes))
+	result := make([]OutputCurrency, 0, len(valCurs.Valutes))
 
 	for _, value := range valCurs.Valutes {
 		numCode, err := strconv.Atoi(value.NumCode)
@@ -45,7 +60,7 @@ func XMLFormatParser(data []byte) ([]models.OutputCurrency, error) {
 			return nil, fmt.Errorf("types conversion: %w", err)
 		}
 
-		result = append(result, models.OutputCurrency{
+		result = append(result, OutputCurrency{
 			NumCode:  numCode,
 			CharCode: value.CharCode,
 			Value:    val,
