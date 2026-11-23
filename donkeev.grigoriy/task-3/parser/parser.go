@@ -48,8 +48,13 @@ func XMLFormatParser(data []byte) ([]OutputCurrency, error) {
 	result := make([]OutputCurrency, 0, len(valCurs.Valutes))
 
 	for _, value := range valCurs.Valutes {
-		if value.NumCode == "" {
-			continue
+		var numCode int
+		if value.NumCode != "" {
+			var err error
+			numCode, err = strconv.Atoi(value.NumCode)
+			if err != nil {
+				return nil, fmt.Errorf("types conversion: %w", err)
+			}
 		}
 
 		numCode, err := strconv.Atoi(value.NumCode)
