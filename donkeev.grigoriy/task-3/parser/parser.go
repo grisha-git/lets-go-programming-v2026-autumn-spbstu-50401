@@ -60,8 +60,8 @@ func XMLFormatParser(data []byte) ([]OutputCurrency, error) {
 		}
 
 		valueStr := strings.ReplaceAll(value.Value, ",", ".")
-		valueFloat, err := strconv.ParseFloat(valueStr, 64)
 
+		valueFloat, err := strconv.ParseFloat(valueStr, 64)
 		if err != nil {
 			return nil, fmt.Errorf("types conversion: %w", err)
 		}
