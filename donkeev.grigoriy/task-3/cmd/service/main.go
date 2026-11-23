@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -25,17 +26,17 @@ func main() {
 
 	configVal, err := config.Load(*configPath)
 	if err != nil {
-		panic("Download error")
+		panic(fmt.Sprintf("Download error: %v", err))
 	}
 
 	xmlData, err := os.ReadFile(configVal.InputFile)
 	if err != nil {
-		panic("Reading error")
+		panic(fmt.Sprintf("Reading error: %v", err))
 	}
 
 	currencyData, err := parser.XMLFormatParser(xmlData)
 	if err != nil {
-		panic("Parsing to XML error: %v")
+		panic(fmt.Sprintf("Parsing to XML error: %v", err))
 	}
 
 	outputDir := filepath.Dir(configVal.OutputFile)
