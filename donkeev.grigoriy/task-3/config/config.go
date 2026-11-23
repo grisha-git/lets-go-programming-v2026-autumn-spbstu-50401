@@ -17,10 +17,10 @@ func Load(path string) (*Config, error) {
 		return nil, err
 	}
 
-	var cfg Config
-	if err := yaml.Unmarshal(data, &cfg); err != nil {
+	var configVal Config
+	if err := yaml.Unmarshal(data, &configVal); err != nil {
 		return nil, err
 	}
 
-	return &cfg, nil
+	return &configVal, nil
 }

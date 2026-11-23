@@ -1,2 +1,2 @@
-input-file: "source/inputFile.xml"
+input-file: "source/1.xml"
 output-file: "result/outputFile.json"

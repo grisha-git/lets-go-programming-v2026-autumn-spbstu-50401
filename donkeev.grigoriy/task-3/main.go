@@ -14,35 +14,37 @@ import (
 func main() {
 	configPath := flag.String("config", "config.yaml", "Path to config file")
 	flag.Parse()
-
-	cfg, err := config.Load(*configPath)
-	if err != nil {
-		panic(fmt.Sprintf("Download error %v", err))
+	if flag.NArg() > 0 {
+		panic(fmt.Sprintf("Too many arguments"))
 	}
 
-	xmlData, err := os.ReadFile(cfg.InputFile)
+	configVal, err := config.Load(*configPath)
 	if err != nil {
-		panic(fmt.Sprintf("Reading error '%s': %v", cfg.InputFile, err))
+		panic(fmt.Sprintf("Download error"))
 	}
 
-	currencies, err := parser.XMLFormatParser(xmlData)
+	xmlData, err := os.ReadFile(configVal.InputFile)
+	if err != nil {
+		panic(fmt.Sprintf("Reading error"))
+	}
+	currencyData, err := parser.XMLFormatParser(xmlData)
 	if err != nil {
 		panic(fmt.Sprintf("Parsing to XML error: %v", err))
 	}
 
-	outputDir := filepath.Dir(cfg.OutputFile)
+	outputDir := filepath.Dir(configVal.OutputFile)
 
 	if err := os.MkdirAll(outputDir, 0755); err != nil {
-		panic(fmt.Sprintf("Creating directory error '%s': %v", outputDir, err))
+		panic(fmt.Sprintf("Creating directory error"))
 	}
 
-	jsonData, err := json.MarshalIndent(currencies, "", "    ")
+	jsonData, err := json.MarshalIndent(currencyData, "", "    ")
 	if err != nil {
 		panic(fmt.Sprintf("Coding to json error %v", err))
 	}
 
-	err = os.WriteFile(cfg.OutputFile, jsonData, 0644)
+	err = os.WriteFile(configVal.OutputFile, jsonData, 0644)
 	if err != nil {
-		panic(fmt.Sprintf("Error file writing '%s': %v", cfg.OutputFile, err))
+		panic(fmt.Sprintf("Error file writing"))
 	}
 }
