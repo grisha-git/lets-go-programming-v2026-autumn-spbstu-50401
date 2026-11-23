@@ -49,22 +49,18 @@ func XMLFormatParser(data []byte) ([]OutputCurrency, error) {
 
 	for _, value := range valCurs.Valutes {
 		var numCode int
+
 		if value.NumCode != "" {
-			var err error
-			numCode, err = strconv.Atoi(value.NumCode)
+			parsedCode, err := strconv.Atoi(value.NumCode)
 			if err != nil {
 				return nil, fmt.Errorf("types conversion: %w", err)
 			}
-		}
 
-		numCode, err := strconv.Atoi(value.NumCode)
-		if err != nil {
-			return nil, fmt.Errorf("types conversion: %w", err)
+			numCode = parsedCode
 		}
 
 		valueStr := strings.ReplaceAll(value.Value, ",", ".")
-
-		val, err := strconv.ParseFloat(valueStr, 64)
+		valueFloat, err := strconv.ParseFloat(valueStr, 64)
 		if err != nil {
 			return nil, fmt.Errorf("types conversion: %w", err)
 		}
@@ -72,7 +68,7 @@ func XMLFormatParser(data []byte) ([]OutputCurrency, error) {
 		result = append(result, OutputCurrency{
 			NumCode:  numCode,
 			CharCode: value.CharCode,
-			Value:    val,
+			Value:    valueFloat,
 		})
 	}
 
