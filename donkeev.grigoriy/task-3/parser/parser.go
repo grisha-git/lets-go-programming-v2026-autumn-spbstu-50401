@@ -1,10 +1,14 @@
 package parser
 
 import (
+	"bytes"
 	"encoding/xml"
+	"io"
 	"sort"
 	"strconv"
 	"strings"
+
+	"golang.org/x/text/encoding/charmap"
 
 	"github.com/donkeev.grigoriy/task-3/models"
 )
@@ -12,8 +16,15 @@ import (
 func XMLFormatParser(data []byte) ([]models.OutputCurrency, error) {
 	var valCurs models.ValCurs
 
-	err := xml.Unmarshal(data, &valCurs)
-	if err != nil {
+	decoder := xml.NewDecoder(bytes.NewReader(data))
+	decoder.CharsetReader = func(charset string, input io.Reader) (io.Reader, error) {
+		if charset == "windows-1251" {
+			return charmap.Windows1251.NewDecoder().Reader(input), nil
+		}
+		return input, nil
+	}
+
+	if err := decoder.Decode(&valCurs); err != nil {
 		return nil, err
 	}
 
