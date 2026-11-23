@@ -9,9 +9,9 @@ import (
 	"strconv"
 	"strings"
 
-	"golang.org/x/text/encoding/charmap"
-
 	"github.com/donkeev.grigoriy/task-3/models"
+
+	"golang.org/x/text/encoding/charmap"
 )
 
 func XMLFormatParser(data []byte) ([]models.OutputCurrency, error) {

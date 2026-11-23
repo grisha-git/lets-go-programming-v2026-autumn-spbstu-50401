@@ -10,6 +10,11 @@ import (
 	"github.com/donkeev.grigoriy/task-3/parser"
 )
 
+const (
+	dirPermissions  = 0o755
+	filePermissions = 0o600
+)
+
 func main() {
 	configPath := flag.String("config", "config.yaml", "Path to config file")
 	flag.Parse()
@@ -34,7 +39,7 @@ func main() {
 	}
 
 	outputDir := filepath.Dir(configVal.OutputFile)
-	if err := os.MkdirAll(outputDir, 0o755); err != nil {
+	if err := os.MkdirAll(outputDir, dirPermissions); err != nil {
 		panic("Creating directory error")
 	}
 
@@ -43,7 +48,7 @@ func main() {
 		panic("Coding to json error")
 	}
 
-	err = os.WriteFile(configVal.OutputFile, jsonData, 0o600)
+	err = os.WriteFile(configVal.OutputFile, jsonData, filePermissions)
 	if err != nil {
 		panic("Error file writing")
 	}
